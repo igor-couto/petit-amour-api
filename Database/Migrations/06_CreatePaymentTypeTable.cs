@@ -9,7 +9,7 @@ public class CreatePaymentTypeTable : Migration
     {
         Create.Table("PaymentType")
             .WithColumn("Id").AsString().NotNullable().PrimaryKey()
-            .WithColumn("Name").AsFixedLengthString(64).NotNullable()
+            .WithColumn("Name").AsString(64).NotNullable()
             .WithColumn("Discount").AsInt16().Nullable();
     }
 

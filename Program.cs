@@ -19,6 +19,7 @@ static void RegisterServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<DbContext>();
     builder.Services.AddScoped<ClosedDateRepository>();
     builder.Services.AddScoped<ProductRepository>();
+    builder.Services.AddScoped<PaymentRepository>();
 
     builder.Services.RegisterFluentMigrator(builder.Configuration.GetConnectionString("DefaultConnection"));
 }
@@ -37,4 +38,5 @@ static void ConfigureApplication(WebApplication app)
 
     app.MapClosedDateEndpoints();
     app.MapProductEndpoints();
+    app.MapPaymentEndpoints();
 }
