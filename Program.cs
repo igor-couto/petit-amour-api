@@ -17,8 +17,8 @@ static void RegisterServices(WebApplicationBuilder builder)
     builder.Services.RegisterFluentValidation();
 
     builder.Services.AddScoped<DbContext>();
-
     builder.Services.AddScoped<ClosedDateRepository>();
+    builder.Services.AddScoped<ProductRepository>();
 
     builder.Services.RegisterFluentMigrator(builder.Configuration.GetConnectionString("DefaultConnection"));
 }
@@ -36,4 +36,5 @@ static void ConfigureApplication(WebApplication app)
     app.UseHealthCheckConfiguration();
 
     app.MapClosedDateEndpoints();
+    app.MapProductEndpoints();
 }
