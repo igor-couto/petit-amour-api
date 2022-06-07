@@ -8,9 +8,9 @@ public class CreateCustomerTable : Migration
     public override void Up()
     {
         Create.Table("Customer")
-            .WithColumn("Id").AsString().NotNullable().PrimaryKey()
-            .WithColumn("Name").AsFixedLengthString(256).NotNullable()
-            .WithColumn("PhoneNumber").AsFixedLengthString(16).NotNullable()
+            .WithColumn("Id").AsString(40).NotNullable().PrimaryKey()
+            .WithColumn("Name").AsString(256).NotNullable()
+            .WithColumn("PhoneNumber").AsString(16).NotNullable()
             .WithColumn("Address").AsString().NotNullable()
             .WithColumn("CreatedAt").AsDateTime().NotNullable();
     }

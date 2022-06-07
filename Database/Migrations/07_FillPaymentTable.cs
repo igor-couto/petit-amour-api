@@ -7,7 +7,7 @@ public class FillPaymentTable : Migration
 {
     public override void Up()
     {
-        Insert.IntoTable("PaymentType")
+        Insert.IntoTable("PaymentMethod")
             .Row(new
             {
                 Id = 0,

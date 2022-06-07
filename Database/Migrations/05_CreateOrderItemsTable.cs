@@ -8,11 +8,11 @@ public class CreateOrderItemsTable : Migration
     public override void Up()
     {
         Create.Table("OrderItems")
-            .WithColumn("Id").AsString().NotNullable().PrimaryKey()
-            .WithColumn("OrderId").AsFixedLengthString(256).NotNullable()
-            .WithColumn("ProductId").AsFixedLengthString(16).NotNullable()
-            .WithColumn("Price").AsDateTime().NotNullable()
-            .WithColumn("Additional").AsDateTime().NotNullable();
+            .WithColumn("Id").AsString(40).NotNullable().PrimaryKey()
+            .WithColumn("OrderId").AsString(40).NotNullable()
+            .WithColumn("ProductId").AsString(40).NotNullable()
+            .WithColumn("Quantity").AsInt16().NotNullable()
+            .WithColumn("Price").AsDecimal().NotNullable();
     }
 
     public override void Down() => Delete.Table("OrderItems");

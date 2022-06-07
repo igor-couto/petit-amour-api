@@ -8,12 +8,12 @@ public class CreateOrderTable : Migration
     public override void Up()
     {
         Create.Table("Order")
-            .WithColumn("Id").AsString().NotNullable().PrimaryKey()
-            .WithColumn("CustomerId").AsFixedLengthString(256).NotNullable()
-            .WithColumn("Amount").AsFixedLengthString(16).NotNullable()
+            .WithColumn("Id").AsString(40).NotNullable().PrimaryKey()
+            .WithColumn("CustomerId").AsString(40).NotNullable()
+            .WithColumn("Amount").AsDecimal().NotNullable()
             .WithColumn("CreatedAt").AsDateTime().NotNullable()
-            .WithColumn("DueDate").AsDateTime().NotNullable()
-            .WithColumn("PaymentType").AsDateTime().NotNullable();
+            .WithColumn("DeliveryDate").AsDateTime().NotNullable()
+            .WithColumn("PaymentMethod").AsInt16().NotNullable();
     }
 
     public override void Down() => Delete.Table("Order");
