@@ -8,7 +8,7 @@ public class CreatePaymentTypeTable : Migration
     public override void Up()
     {
         Create.Table("PaymentType")
-            .WithColumn("Id").AsString().NotNullable().PrimaryKey()
+            .WithColumn("Id").AsInt16().NotNullable().PrimaryKey()
             .WithColumn("Name").AsString(64).NotNullable()
             .WithColumn("Discount").AsInt16().Nullable();
     }
