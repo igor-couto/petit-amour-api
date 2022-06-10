@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace AccountingLedgerApi.Endpoints;
+namespace PetitAmourAPI.Endpoints;
 
 public static class PaymentEndpoints
 {
@@ -9,7 +9,7 @@ public static class PaymentEndpoints
 
     private static async Task<IResult> GetAllPayments([FromServices] PaymentRepository repository)
     {
-        var paymentTypes = await repository.GetAllPaymentTypes();
+        var paymentTypes = await repository.GetAllPaymentMethods();
 
         return Results.Ok(paymentTypes);
     }

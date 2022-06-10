@@ -2,7 +2,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using PetitAmourAPI.Domain.Requests;
 
-namespace AccountingLedgerApi.Endpoints;
+namespace PetitAmourAPI.Endpoints;
 
 public static class ClosedDateEndpoints
 {

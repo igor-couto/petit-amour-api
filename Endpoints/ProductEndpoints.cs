@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace AccountingLedgerApi.Endpoints;
+namespace PetitAmourAPI.Endpoints;
 
 public static class ProductEndpoints
 {

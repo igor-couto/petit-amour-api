@@ -18,6 +18,18 @@ public class ClosedDateRepository : IDisposable
         return await connection.QueryAsync<DateTime>("SELECT * FROM \"ClosedDate\";");
     }
 
+    internal async Task<bool> GetDate(DateTime date)
+    {
+        var connection = await _dbContext.GetConnection();
+
+        var result = await connection.QuerySingleOrDefaultAsync($"SELECT * FROM \"ClosedDate\" WHERE \"Date\" = @date;", new { date });
+
+        if (result is null)
+            return false;
+        else
+            return true;
+    }
+
     internal async Task<(bool, string)> Insert(DateRequest closedDate)
     {
         var commandText = "INSERT INTO \"ClosedDate\" (\"Date\") VALUES (@Date);";
