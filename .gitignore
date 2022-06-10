@@ -2,6 +2,7 @@
 
 .vscode/
 .vs/
+launchSettings.json
 
 # SQL Scripts
 *.sql
