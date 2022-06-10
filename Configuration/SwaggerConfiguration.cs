@@ -1,3 +1,5 @@
+using Microsoft.OpenApi.Models;
+
 namespace PetitAmourAPI.Configuration;
 
 public static class SwaggerConfiguration
