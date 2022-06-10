@@ -24,9 +24,9 @@ public class DbContext : IDisposable
         return _connection;
     }
 
-    public void Dispose()
-        => _connection.Dispose();
-
     private bool ConnectionIsClosed()
         => _connection.State == ConnectionState.Closed;
+
+    public void Dispose()
+        => _connection.Dispose();
 }
