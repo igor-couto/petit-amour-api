@@ -13,7 +13,8 @@ public class CreateOrderTable : Migration
             .WithColumn("Amount").AsDecimal().NotNullable()
             .WithColumn("CreatedAt").AsDateTime().NotNullable()
             .WithColumn("DeliveryDate").AsDateTime().NotNullable()
-            .WithColumn("PaymentMethod").AsInt16().NotNullable();
+            .WithColumn("PaymentMethod").AsInt16().NotNullable()
+            .WithColumn("DeliveryAddress").AsString(512).NotNullable();
     }
 
     public override void Down() => Delete.Table("Order");

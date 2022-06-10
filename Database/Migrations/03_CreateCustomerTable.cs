@@ -11,7 +11,6 @@ public class CreateCustomerTable : Migration
             .WithColumn("Id").AsString(40).NotNullable().PrimaryKey()
             .WithColumn("Name").AsString(256).NotNullable()
             .WithColumn("PhoneNumber").AsString(16).NotNullable()
-            .WithColumn("Address").AsString().NotNullable()
             .WithColumn("CreatedAt").AsDateTime().NotNullable();
     }
 
