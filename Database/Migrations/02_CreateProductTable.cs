@@ -10,6 +10,7 @@ public class CreateProductTable : Migration
         Create.Table("Product")
             .WithColumn("Id").AsString(40).NotNullable().PrimaryKey()
             .WithColumn("Name").AsString().NotNullable()
+            .WithColumn("Description").AsString().NotNullable()
             .WithColumn("Price").AsCurrency().NotNullable();
     }
 
