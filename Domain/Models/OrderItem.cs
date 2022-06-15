@@ -2,9 +2,9 @@ namespace PetitAmourAPI.Domain.Models;
 
 public record OrderItem
 {
-    public Guid Id { get; set; }
-    public Guid OrderId { get; set; }
-    public Guid ProductId { get; set; }
-    public short Quantity { get; set; }
-    public decimal Price { get; set; }
+    public Guid Id { get; init; }
+    public Guid OrderId { get; init; }
+    public Guid ProductId { get; init; }
+    public short Quantity { get; init; }
+    public decimal Price { get; init; }
 }
