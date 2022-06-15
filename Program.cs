@@ -16,7 +16,7 @@ static void RegisterServices(WebApplicationBuilder builder)
 
     builder.Services.RegisterFluentValidation();
 
-    builder.Services.AddScoped<Database>();
+    builder.Services.AddScoped<DatabaseConnection>();
     builder.Services.AddScoped<ClosedDateRepository>();
     builder.Services.AddScoped<CustomerRepository>();
     builder.Services.AddScoped<OrderRepository>();

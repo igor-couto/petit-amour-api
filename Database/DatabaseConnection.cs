@@ -3,20 +3,20 @@ using System.Data;
 
 namespace PetitAmourAPI.Database;
 
-public class Database : IDisposable
+public class DatabaseConnection : IDisposable
 {
     private readonly NpgsqlConnection _connection;
 
-    public Database(string connectionString)
+    public DatabaseConnection(string connectionString)
         => _connection = new NpgsqlConnection(connectionString);
 
-    public Database(IConfiguration config)
+    public DatabaseConnection(IConfiguration config)
     {
         var connectionString = config.GetConnectionString("DefaultConnection");
         _connection = new NpgsqlConnection(connectionString);
     }
 
-    public async Task<NpgsqlConnection> GetConnection()
+    public async Task<NpgsqlConnection> Get()
     {
         if (ConnectionIsClosed())
             await _connection.OpenAsync();
@@ -24,9 +24,7 @@ public class Database : IDisposable
         return _connection;
     }
 
-    private bool ConnectionIsClosed()
-        => _connection.State == ConnectionState.Closed;
+    private bool ConnectionIsClosed() => _connection.State == ConnectionState.Closed;
 
-    public void Dispose()
-        => _connection.Dispose();
+    public void Dispose() => _connection.Dispose();
 }

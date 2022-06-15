@@ -5,21 +5,21 @@ namespace PetitAmourAPI.Database.Repositories;
 
 public class ClosedDateRepository : IDisposable
 {
-    private readonly Database _database;
+    private readonly DatabaseConnection _databaseConnection;
 
-    public ClosedDateRepository(Database database)
-        => _database = database;
+    public ClosedDateRepository(DatabaseConnection database)
+        => _databaseConnection = database;
 
     internal async Task<IEnumerable<DateTime>> GetAllClosedDates()
     {
-        var connection = await _database.GetConnection();
+        var connection = await _databaseConnection.Get();
 
         return await connection.QueryAsync<DateTime>("SELECT * FROM closed_date;");
     }
 
     internal async Task<bool> GetDate(DateTime date)
     {
-        var connection = await _database.GetConnection();
+        var connection = await _databaseConnection.Get();
 
         var result = await connection.QuerySingleOrDefaultAsync("SELECT * FROM closed_date WHERE date = @date;", new { date });
 
@@ -35,7 +35,7 @@ public class ClosedDateRepository : IDisposable
 
         try
         {
-            var connection = await _database.GetConnection();
+            var connection = await _databaseConnection.Get();
 
             await connection.ExecuteAsync(commandText, date);
         }
@@ -60,7 +60,7 @@ public class ClosedDateRepository : IDisposable
 
         try
         {
-            var connection = await _database.GetConnection();
+            var connection = await _databaseConnection.Get();
 
             var numberOfDeletedRows = await connection.ExecuteAsync(commandText, date);
 
@@ -75,5 +75,5 @@ public class ClosedDateRepository : IDisposable
         return (true, string.Empty);
     }
 
-    public void Dispose() => _database.Dispose();
+    public void Dispose() => _databaseConnection.Dispose();
 }

@@ -4,24 +4,22 @@ namespace PetitAmourAPI.Database.Repositories;
 
 public class ProductRepository : IDisposable
 {
-    private readonly Database _database;
+    private readonly DatabaseConnection _databaseConnection;
 
-    public ProductRepository(Database database) => _database = database;
+    public ProductRepository(DatabaseConnection database) => _databaseConnection = database;
 
     public async Task<IEnumerable<Product>> GetAllProducts()
     {
-        var connection = await _database.GetConnection();
+        var connection = await _databaseConnection.Get();
 
         return await connection.QueryAsync<Product>("SELECT * FROM product;");
     }
-
-    public void Dispose() => _database.Dispose();
 
     public async Task<List<Product>> GetProductsByIds(List<Guid> ids)
     {
         try
         {
-            var connection = await _database.GetConnection();
+            var connection = await _databaseConnection.Get();
 
             var query = $"SELECT * FROM product WHERE id IN ( {string.Join(", ", ids.Select(x => "'" + x + "'"))} );";
 
@@ -33,4 +31,6 @@ public class ProductRepository : IDisposable
             throw;
         }
     }
+
+    public void Dispose() => _databaseConnection.Dispose();
 }

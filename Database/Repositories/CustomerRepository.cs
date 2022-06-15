@@ -4,9 +4,9 @@ namespace PetitAmourAPI.Database.Repositories;
 
 public class CustomerRepository : IDisposable
 {
-    private readonly Database _database;
+    private readonly DatabaseConnection _databaseConnection;
 
-    public CustomerRepository(Database database) => _database = database;
+    public CustomerRepository(DatabaseConnection database) => _databaseConnection = database;
 
     internal async Task<Customer> Insert(string name, string phoneNumber)
     {
@@ -22,17 +22,17 @@ public class CustomerRepository : IDisposable
 
         try
         {
-            var connection = await _database.GetConnection();
+            var connection = await _databaseConnection.Get();
 
             await connection.ExecuteAsync(commandText, customer);
 
             return customer;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
     }
 
-    public void Dispose() => _database.Dispose();
+    public void Dispose() => _databaseConnection.Dispose();
 }

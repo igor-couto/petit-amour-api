@@ -4,23 +4,23 @@ namespace PetitAmourAPI.Database.Repositories;
 
 public class PaymentRepository : IDisposable
 {
-    private readonly Database _database;
+    private readonly DatabaseConnection _databaseConnection;
 
-    public PaymentRepository(Database database) => _database = database;
+    public PaymentRepository(DatabaseConnection database) => _databaseConnection = database;
 
     internal async Task<IEnumerable<PaymentMethod>> GetAllPaymentMethods()
     {
-        var connection = await _database.GetConnection();
+        var connection = await _databaseConnection.Get();
 
         return await connection.QueryAsync<PaymentMethod>("SELECT * FROM payment_method;");
     }
 
-    public void Dispose() => _database.Dispose();
-
     internal async Task<PaymentMethod> GetPaymentMethod(short id)
     {
-        var connection = await _database.GetConnection();
+        var connection = await _databaseConnection.Get();
 
         return await connection.QueryFirstOrDefaultAsync<PaymentMethod>("SELECT * FROM payment_method WHERE id = @id;", new { id });
     }
+
+    public void Dispose() => _databaseConnection.Dispose();
 }
