@@ -2,29 +2,29 @@ using FluentMigrator;
 
 namespace PetitAmourAPI.Database.Migrations;
 
-[Migration(7)]
+[Migration(8)]
 public class FillPaymentTable : Migration
 {
     public override void Up()
     {
-        Insert.IntoTable("PaymentMethod")
+        Insert.IntoTable("payment_method")
             .Row(new
             {
-                Id = 0,
-                Name = "Dinheiro",
-                Discount = 5
+                id = 0,
+                name = "Dinheiro",
+                discount = 5
             })
             .Row(new
             {
-                Id = 1,
-                Name = "Pix",
-                Discount = 5
+                id = 1,
+                name = "Pix",
+                discount = 5
             })
             .Row(new
             {
-                Id = 2,
-                Name = "Cartão",
-                Discount = 1
+                id = 2,
+                name = "Cartão",
+                discount = 1
             });
     }
 

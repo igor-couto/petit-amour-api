@@ -1,6 +1,4 @@
 using System.Text;
-using PetitAmourAPI.Domain.Models;
-using PetitAmourAPI.Domain.Requests;
 
 namespace PetitAmourAPI.Domain.Services;
 
@@ -34,16 +32,13 @@ public class OrderService
 
         var customer = await _customerRepository.Insert(orderRequest.CustomerName, orderRequest.CustomerPhoneNumber);
 
-
         var closedDate = await _closedDateRepository.GetDate(orderRequest.DeliveryDate);
 
-        if (closedDate)
-            return "";
-
+        if (closedDate) return "";
 
         var order = new Order
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid(),
             CustomerId = customer.Id,
             CreatedAt = DateTime.UtcNow,
             DeliveryDate = orderRequest.DeliveryDate,
@@ -51,7 +46,7 @@ public class OrderService
             DeliveryAddress = orderRequest.DeliveryAddress
         };
 
-        var products = await _productRepository.GetProducts(orderRequest.productRequest.Select(x => x.Id).ToList());
+        var products = await _productRepository.GetProductsByIds(orderRequest.productRequest.Select(x => x.Id).ToList());
         var orderItems = new List<OrderItem>();
         var totalAmount = 0m;
 
@@ -65,7 +60,7 @@ public class OrderService
 
             orderItems.Add(new OrderItem
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 OrderId = order.Id,
                 ProductId = products[index].Id,
                 Price = cost,

@@ -1,6 +1,5 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using PetitAmourAPI.Domain.Requests;
 
 namespace PetitAmourAPI.Endpoints;
 
@@ -26,14 +25,14 @@ public static class ClosedDateEndpoints
 
     private static async Task<IResult> PostClosedDate(
         [FromServices] ClosedDateRepository repository,
-        [FromBody] DateRequest date,
+        [FromBody] DateRequest dateRequest,
         IValidator<DateRequest> validator)
     {
-        var validationResult = await validator.ValidateAsync(date);
+        var validationResult = await validator.ValidateAsync(dateRequest);
         if (!validationResult.IsValid)
             return Results.BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
 
-        var (success, message) = await repository.Insert(date);
+        var (success, message) = await repository.Insert(dateRequest.Date);
 
         if (success)
             return Results.Ok();
@@ -43,14 +42,14 @@ public static class ClosedDateEndpoints
 
     private static async Task<IResult> DeleteClosedDate(
         [FromServices] ClosedDateRepository repository,
-        [FromBody] DateRequest date,
+        [FromBody] DateRequest dateRequest,
         IValidator<DateRequest> validator)
     {
-        var validationResult = await validator.ValidateAsync(date);
+        var validationResult = await validator.ValidateAsync(dateRequest);
         if (!validationResult.IsValid)
             return Results.BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
 
-        var (success, message) = await repository.Delete(date);
+        var (success, message) = await repository.Delete(dateRequest.Date);
 
         if (success)
             return Results.Ok();

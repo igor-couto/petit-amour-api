@@ -1,5 +1,4 @@
 using FluentValidation;
-using PetitAmourAPI.Domain.Requests;
 
 namespace PetitAmourAPI.Domain.Validators
 {

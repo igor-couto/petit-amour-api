@@ -1,30 +1,31 @@
 using Dapper;
-using PetitAmourAPI.Domain.Models;
 
 namespace PetitAmourAPI.Database.Repositories;
 
 public class ProductRepository : IDisposable
 {
-    private readonly DbContext _dbContext;
+    private readonly Database _database;
 
-    public ProductRepository(DbContext dbContext) => _dbContext = dbContext;
+    public ProductRepository(Database database) => _database = database;
 
     public async Task<IEnumerable<Product>> GetAllProducts()
     {
-        var connection = await _dbContext.GetConnection();
+        var connection = await _database.GetConnection();
 
-        return await connection.QueryAsync<Product>("SELECT * FROM \"Product\";");
+        return await connection.QueryAsync<Product>("SELECT * FROM product;");
     }
 
-    public void Dispose() => _dbContext.Dispose();
+    public void Dispose() => _database.Dispose();
 
-    public async Task<List<Product>> GetProducts(List<string> ids)
+    public async Task<List<Product>> GetProductsByIds(List<Guid> ids)
     {
         try
         {
-            var connection = await _dbContext.GetConnection();
+            var connection = await _database.GetConnection();
 
-            var result = await connection.QueryAsync<Product>("SELECT * FROM \"Product\" WHERE \"Id\" IN (@ids);", new { ids = string.Join(",", ids) });
+            var query = $"SELECT * FROM product WHERE id IN ( {string.Join(", ", ids.Select(x => "'" + x + "'"))} );";
+
+            var result = await connection.QueryAsync<Product>(query);
             return result.ToList();
         }
         catch (Exception)

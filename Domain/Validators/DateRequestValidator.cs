@@ -1,5 +1,4 @@
 using FluentValidation;
-using PetitAmourAPI.Domain.Requests;
 
 namespace PetitAmourAPI.Domain.Validators
 {
@@ -9,17 +8,9 @@ namespace PetitAmourAPI.Domain.Validators
         {
             var currentDate = DateTime.Now;
 
-            RuleFor(x => x.Day)
+            RuleFor(x => x.Date)
                 .NotEmpty()
-                .GreaterThanOrEqualTo(currentDate.Day);
-
-            RuleFor(x => x.Month)
-                .NotEmpty()
-                .GreaterThanOrEqualTo(currentDate.Month);
-
-            RuleFor(x => x.Year)
-                .NotEmpty()
-                .GreaterThanOrEqualTo(currentDate.Year);
+                .GreaterThanOrEqualTo(currentDate);
         }
     }
 }

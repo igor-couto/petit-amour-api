@@ -1,28 +1,27 @@
 using Dapper;
 using Npgsql;
-using PetitAmourAPI.Domain.Requests;
 
 namespace PetitAmourAPI.Database.Repositories;
 
 public class ClosedDateRepository : IDisposable
 {
-    private readonly DbContext _dbContext;
+    private readonly Database _database;
 
-    public ClosedDateRepository(DbContext dbContext)
-        => _dbContext = dbContext;
+    public ClosedDateRepository(Database database)
+        => _database = database;
 
     internal async Task<IEnumerable<DateTime>> GetAllClosedDates()
     {
-        var connection = await _dbContext.GetConnection();
+        var connection = await _database.GetConnection();
 
-        return await connection.QueryAsync<DateTime>("SELECT * FROM \"ClosedDate\";");
+        return await connection.QueryAsync<DateTime>("SELECT * FROM closed_date;");
     }
 
     internal async Task<bool> GetDate(DateTime date)
     {
-        var connection = await _dbContext.GetConnection();
+        var connection = await _database.GetConnection();
 
-        var result = await connection.QuerySingleOrDefaultAsync($"SELECT * FROM \"ClosedDate\" WHERE \"Date\" = @date;", new { date });
+        var result = await connection.QuerySingleOrDefaultAsync("SELECT * FROM closed_date WHERE date = @date;", new { date });
 
         if (result is null)
             return false;
@@ -30,20 +29,15 @@ public class ClosedDateRepository : IDisposable
             return true;
     }
 
-    internal async Task<(bool, string)> Insert(DateRequest closedDate)
+    internal async Task<(bool, string)> Insert(DateTime date)
     {
-        var commandText = "INSERT INTO \"ClosedDate\" (\"Date\") VALUES (@Date);";
+        var commandText = "INSERT INTO closed_date (date) VALUES (@date);";
 
         try
         {
-            var queryArguments = new
-            {
-                Date = new DateTime(closedDate.Year, closedDate.Month, closedDate.Day)
-            };
+            var connection = await _database.GetConnection();
 
-            var connection = await _dbContext.GetConnection();
-
-            await connection.ExecuteAsync(commandText, queryArguments);
+            await connection.ExecuteAsync(commandText, date);
         }
         catch (PostgresException ex)
         {
@@ -60,20 +54,15 @@ public class ClosedDateRepository : IDisposable
         return (true, string.Empty);
     }
 
-    internal async Task<(bool, string)> Delete(DateRequest closedDate)
+    internal async Task<(bool, string)> Delete(DateTime date)
     {
-        var commandText = "DELETE FROM \"ClosedDate\" WHERE \"Date\" = @Date;";
+        var commandText = "DELETE FROM closed_date WHERE date = @date;";
 
         try
         {
-            var queryArguments = new
-            {
-                Date = new DateTime(closedDate.Year, closedDate.Month, closedDate.Day)
-            };
+            var connection = await _database.GetConnection();
 
-            var connection = await _dbContext.GetConnection();
-
-            var numberOfDeletedRows = await connection.ExecuteAsync(commandText, queryArguments);
+            var numberOfDeletedRows = await connection.ExecuteAsync(commandText, date);
 
             if (numberOfDeletedRows is 0)
                 return (false, "A data selecionada já está livre");
@@ -86,5 +75,5 @@ public class ClosedDateRepository : IDisposable
         return (true, string.Empty);
     }
 
-    public void Dispose() => _dbContext.Dispose();
+    public void Dispose() => _database.Dispose();
 }

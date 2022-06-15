@@ -1,56 +1,44 @@
 using Dapper;
-using PetitAmourAPI.Domain.Models;
 
 namespace PetitAmourAPI.Database.Repositories;
 
 public class OrderRepository : IDisposable
 {
-    private readonly DbContext _dbContext;
+    private readonly Database _database;
 
-    public OrderRepository(DbContext dbContext) => _dbContext = dbContext;
+    public OrderRepository(Database database) => _database = database;
 
     internal async Task CreateOrder(Order order)
     {
-        var connection = await _dbContext.GetConnection();
+        var connection = await _database.GetConnection();
 
-        var commandText = "INSERT INTO \"Order\" (\"Id\", \"CustomerId\", \"Amount\", \"CreatedAt\",  \"DeliveryDate\",  \"PaymentMethod\", \"DeliveryAddress\") VALUES (@Id, @CustomerId, @Amount, @CreatedAt, @DeliveryDate, @PaymentMethod, @DeliveryAddress);";
+        var commandText = @"INSERT INTO ""order"" (id, customer_id, amount, created_at, delivery_date, payment_method, delivery_address) VALUES (@Id, @CustomerId, @Amount, @CreatedAt, @DeliveryDate, @PaymentMethod, @DeliveryAddress);";
 
         try
         {
-            var queryArguments = new
-            {
-                order.Id,
-                order.CustomerId,
-                order.Amount,
-                order.CreatedAt,
-                order.DeliveryDate,
-                order.PaymentMethod,
-                order.DeliveryAddress
-            };
-
-            await connection.ExecuteAsync(commandText, queryArguments);
+            await connection.ExecuteAsync(commandText, order);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
     }
 
     internal async Task CreateOrderItems(List<OrderItem> orderItems)
     {
-        var connection = await _dbContext.GetConnection();
+        var connection = await _database.GetConnection();
 
-        var commandText = "INSERT INTO \"OrderItem\" (\"Id\", \"OrderId\", \"ProductId\", \"Quantity\", \"Price\") VALUES (@Id, @OrderId, @ProductId, @Quantity, @Price);";
+        var commandText = "INSERT INTO order_item (id, order_id, product_id, quantity, price) VALUES (@Id, @OrderId, @ProductId, @Quantity, @Price);";
 
         try
         {
             await connection.ExecuteAsync(commandText, orderItems);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
     }
 
-    public void Dispose() => _dbContext.Dispose();
+    public void Dispose() => _database.Dispose();
 }

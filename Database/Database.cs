@@ -3,14 +3,14 @@ using System.Data;
 
 namespace PetitAmourAPI.Database;
 
-public class DbContext : IDisposable
+public class Database : IDisposable
 {
     private readonly NpgsqlConnection _connection;
 
-    public DbContext(string connectionString)
+    public Database(string connectionString)
         => _connection = new NpgsqlConnection(connectionString);
 
-    public DbContext(IConfiguration config)
+    public Database(IConfiguration config)
     {
         var connectionString = config.GetConnectionString("DefaultConnection");
         _connection = new NpgsqlConnection(connectionString);

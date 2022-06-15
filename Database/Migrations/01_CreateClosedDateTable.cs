@@ -7,9 +7,9 @@ public class CreateClosedDateTable : Migration
 {
     public override void Up()
     {
-        Create.Table("ClosedDate")
-            .WithColumn("Date").AsDate().NotNullable().PrimaryKey();
+        Create.Table("closed_date")
+            .WithColumn("date").AsDate().NotNullable().PrimaryKey();
     }
 
-    public override void Down() => Delete.Table("ClosedDate");
+    public override void Down() => Delete.Table("closed_date");
 }

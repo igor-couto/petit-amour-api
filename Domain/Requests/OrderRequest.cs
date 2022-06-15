@@ -11,7 +11,7 @@ public class OrderRequest
 
     public class Product
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public short Quantity { get; set; }
     }
 }

@@ -1,27 +1,26 @@
 using Dapper;
-using PetitAmourAPI.Domain.Models;
 
 namespace PetitAmourAPI.Database.Repositories;
 
 public class PaymentRepository : IDisposable
 {
-    private readonly DbContext _dbContext;
+    private readonly Database _database;
 
-    public PaymentRepository(DbContext dbContext) => _dbContext = dbContext;
+    public PaymentRepository(Database database) => _database = database;
 
     internal async Task<IEnumerable<PaymentMethod>> GetAllPaymentMethods()
     {
-        var connection = await _dbContext.GetConnection();
+        var connection = await _database.GetConnection();
 
-        return await connection.QueryAsync<PaymentMethod>("SELECT * FROM \"PaymentMethod\";");
+        return await connection.QueryAsync<PaymentMethod>("SELECT * FROM payment_method;");
     }
 
-    public void Dispose() => _dbContext.Dispose();
+    public void Dispose() => _database.Dispose();
 
     internal async Task<PaymentMethod> GetPaymentMethod(short id)
     {
-        var connection = await _dbContext.GetConnection();
+        var connection = await _database.GetConnection();
 
-        return await connection.QueryFirstOrDefaultAsync<PaymentMethod>($"SELECT * FROM \"PaymentMethod\" WHERE \"Id\" = @id", new { id });
+        return await connection.QueryFirstOrDefaultAsync<PaymentMethod>("SELECT * FROM payment_method WHERE id = @id;", new { id });
     }
 }

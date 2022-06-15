@@ -2,7 +2,9 @@ namespace PetitAmourAPI.Domain.Models;
 
 public record Product
 {
-    public string Id { get; }
-    public string Name { get; }
-    public decimal Price { get; }
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public decimal Price { get; set; }
+    public Guid CategoryId { get; set; }
 }

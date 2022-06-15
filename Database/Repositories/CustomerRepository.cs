@@ -1,21 +1,20 @@
 using Dapper;
-using PetitAmourAPI.Domain.Models;
 
 namespace PetitAmourAPI.Database.Repositories;
 
 public class CustomerRepository : IDisposable
 {
-    private readonly DbContext _dbContext;
+    private readonly Database _database;
 
-    public CustomerRepository(DbContext dbContext) => _dbContext = dbContext;
+    public CustomerRepository(Database database) => _database = database;
 
     internal async Task<Customer> Insert(string name, string phoneNumber)
     {
-        var commandText = "INSERT INTO \"Customer\" (\"Id\", \"Name\", \"PhoneNumber\", \"CreatedAt\") VALUES (@Id, @Name, @PhoneNumber, @CreatedAt);";
+        var commandText = "INSERT INTO customer (id, name, phone_number, created_at) VALUES (@Id, @Name, @PhoneNumber, @CreatedAt);";
 
         var customer = new Customer
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid(),
             Name = name,
             PhoneNumber = phoneNumber,
             CreatedAt = DateTime.Now
@@ -23,26 +22,17 @@ public class CustomerRepository : IDisposable
 
         try
         {
-            var queryArguments = new
-            {
-                customer.Id,
-                customer.Name,
-                customer.PhoneNumber,
-                customer.CreatedAt
-            };
+            var connection = await _database.GetConnection();
 
-            var connection = await _dbContext.GetConnection();
-
-            await connection.ExecuteAsync(commandText, queryArguments);
+            await connection.ExecuteAsync(commandText, customer);
 
             return customer;
         }
         catch (Exception ex)
         {
-            //"Ocorreu um erro persistir o cliente no sistema."
             throw ex;
         }
     }
 
-    public void Dispose() => _dbContext.Dispose();
+    public void Dispose() => _database.Dispose();
 }
