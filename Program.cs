@@ -16,14 +16,7 @@ static void RegisterServices(WebApplicationBuilder builder)
 
     builder.Services.RegisterFluentValidation();
 
-    builder.Services.AddScoped<DatabaseConnection>();
-    builder.Services.AddScoped<ClosedDateRepository>();
-    builder.Services.AddScoped<CustomerRepository>();
-    builder.Services.AddScoped<OrderRepository>();
-    builder.Services.AddScoped<PaymentRepository>();
-    builder.Services.AddScoped<ProductRepository>();
-
-    builder.Services.AddTransient<OrderService>();
+    builder.Services.RegisterDependencyInjections();
 
     builder.Services.RegisterFluentMigrator(builder.Configuration.GetConnectionString("DefaultConnection"));
 }
