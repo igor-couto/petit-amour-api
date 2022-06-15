@@ -1,5 +1,4 @@
 using FluentValidation.AspNetCore;
-using PetitAmourAPI.Domain.Requests;
 
 namespace PetitAmourAPI.Configuration;
 
