@@ -7,9 +7,6 @@ public class DatabaseConnection : IDisposable
 {
     private readonly NpgsqlConnection _connection;
 
-    public DatabaseConnection(string connectionString)
-        => _connection = new NpgsqlConnection(connectionString);
-
     public DatabaseConnection(IConfiguration config)
     {
         var connectionString = config.GetConnectionString("DefaultConnection");
