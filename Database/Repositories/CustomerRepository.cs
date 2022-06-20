@@ -22,7 +22,7 @@ public class CustomerRepository : IDisposable
 
         try
         {
-            var connection = await _databaseConnection.Get();
+            var connection = _databaseConnection.Get();
 
             await connection.ExecuteAsync(commandText, customer);
 

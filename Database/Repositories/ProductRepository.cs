@@ -10,7 +10,7 @@ public class ProductRepository : IDisposable
 
     public async Task<IEnumerable<Product>> GetAllProducts()
     {
-        var connection = await _databaseConnection.Get();
+        var connection = _databaseConnection.Get();
 
         return await connection.QueryAsync<Product>("SELECT * FROM product;");
     }
@@ -19,7 +19,7 @@ public class ProductRepository : IDisposable
     {
         try
         {
-            var connection = await _databaseConnection.Get();
+            var connection = _databaseConnection.Get();
 
             var query = $"SELECT * FROM product WHERE id IN ( {string.Join(", ", ids.Select(x => "'" + x + "'"))} );";
 

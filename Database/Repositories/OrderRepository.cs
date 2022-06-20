@@ -10,7 +10,7 @@ public class OrderRepository : IDisposable
 
     internal async Task CreateOrder(Order order)
     {
-        var connection = await _databaseConnection.Get();
+        var connection = _databaseConnection.Get();
 
         var commandText = @"INSERT INTO ""order"" (id, customer_id, amount, created_at, delivery_date, payment_method, delivery_address) VALUES (@Id, @CustomerId, @Amount, @CreatedAt, @DeliveryDate, @PaymentMethod, @DeliveryAddress);";
 
@@ -26,7 +26,7 @@ public class OrderRepository : IDisposable
 
     internal async Task CreateOrderItems(List<OrderItem> orderItems)
     {
-        var connection = await _databaseConnection.Get();
+        var connection = _databaseConnection.Get();
 
         var commandText = "INSERT INTO order_item (id, order_id, product_id, quantity, price) VALUES (@Id, @OrderId, @ProductId, @Quantity, @Price);";
 

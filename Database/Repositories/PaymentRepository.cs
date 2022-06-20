@@ -10,14 +10,14 @@ public class PaymentRepository : IDisposable
 
     internal async Task<IEnumerable<PaymentMethod>> GetAllPaymentMethods()
     {
-        var connection = await _databaseConnection.Get();
+        var connection = _databaseConnection.Get();
 
         return await connection.QueryAsync<PaymentMethod>("SELECT * FROM payment_method;");
     }
 
     internal async Task<PaymentMethod> GetPaymentMethod(short id)
     {
-        var connection = await _databaseConnection.Get();
+        var connection = _databaseConnection.Get();
 
         return await connection.QueryFirstOrDefaultAsync<PaymentMethod>("SELECT * FROM payment_method WHERE id = @id;", new { id });
     }

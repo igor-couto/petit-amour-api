@@ -1,5 +1,4 @@
 using Npgsql;
-using System.Data;
 
 namespace PetitAmourAPI.Database;
 
@@ -13,15 +12,7 @@ public class DatabaseConnection : IDisposable
         _connection = new NpgsqlConnection(connectionString);
     }
 
-    public async Task<NpgsqlConnection> Get()
-    {
-        if (ConnectionIsClosed())
-            await _connection.OpenAsync();
-
-        return _connection;
-    }
-
-    private bool ConnectionIsClosed() => _connection.State == ConnectionState.Closed;
+    public NpgsqlConnection Get() => _connection;
 
     public void Dispose() => _connection.Dispose();
 }
