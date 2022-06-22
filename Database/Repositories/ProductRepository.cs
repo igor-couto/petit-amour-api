@@ -15,6 +15,12 @@ public class ProductRepository : IDisposable
         return await connection.QueryAsync<Product>("SELECT * FROM product;");
     }
 
+    public async Task<IEnumerable<ProductCategory>> AllCategories()
+    {
+        var connection = _databaseConnection.Get();
+
+        return await connection.QueryAsync<ProductCategory>("SELECT * FROM product_category;");
+    }
 
     public async Task<List<Product>> ProductsByIds(List<Guid> ids)
     {
