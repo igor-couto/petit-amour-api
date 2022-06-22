@@ -8,14 +8,15 @@ public class ProductRepository : IDisposable
 
     public ProductRepository(DatabaseConnection database) => _databaseConnection = database;
 
-    public async Task<IEnumerable<Product>> GetAllProducts()
+    public async Task<IEnumerable<Product>> AllProducts()
     {
         var connection = _databaseConnection.Get();
 
         return await connection.QueryAsync<Product>("SELECT * FROM product;");
     }
 
-    public async Task<List<Product>> GetProductsByIds(List<Guid> ids)
+
+    public async Task<List<Product>> ProductsByIds(List<Guid> ids)
     {
         try
         {

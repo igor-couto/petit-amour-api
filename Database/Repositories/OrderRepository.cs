@@ -8,7 +8,7 @@ public class OrderRepository : IDisposable
 
     public OrderRepository(DatabaseConnection database) => _databaseConnection = database;
 
-    internal async Task CreateOrder(Order order)
+    internal async Task Insert(Order order)
     {
         var connection = _databaseConnection.Get();
 
@@ -24,7 +24,7 @@ public class OrderRepository : IDisposable
         }
     }
 
-    internal async Task CreateOrderItems(List<OrderItem> orderItems)
+    internal async Task InsertOrderItems(List<OrderItem> orderItems)
     {
         var connection = _databaseConnection.Get();
 

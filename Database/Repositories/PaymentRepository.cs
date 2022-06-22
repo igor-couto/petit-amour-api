@@ -8,14 +8,14 @@ public class PaymentRepository : IDisposable
 
     public PaymentRepository(DatabaseConnection database) => _databaseConnection = database;
 
-    internal async Task<IEnumerable<PaymentMethod>> GetAllPaymentMethods()
+    internal async Task<IEnumerable<PaymentMethod>> AllPaymentMethods()
     {
         var connection = _databaseConnection.Get();
 
         return await connection.QueryAsync<PaymentMethod>("SELECT * FROM payment_method;");
     }
 
-    internal async Task<PaymentMethod> GetPaymentMethod(short id)
+    internal async Task<PaymentMethod> PaymentMethod(short id)
     {
         var connection = _databaseConnection.Get();
 

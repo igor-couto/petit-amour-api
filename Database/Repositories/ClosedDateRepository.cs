@@ -10,14 +10,14 @@ public class ClosedDateRepository : IDisposable
     public ClosedDateRepository(DatabaseConnection database)
         => _databaseConnection = database;
 
-    internal async Task<IEnumerable<DateTime>> GetAllClosedDates()
+    internal async Task<IEnumerable<DateTime>> AllClosedDates()
     {
         var connection = _databaseConnection.Get();
 
         return await connection.QueryAsync<DateTime>("SELECT * FROM closed_date;");
     }
 
-    internal async Task<bool> GetDate(DateTime date)
+    internal async Task<bool> Date(DateTime date)
     {
         var connection = _databaseConnection.Get();
 
