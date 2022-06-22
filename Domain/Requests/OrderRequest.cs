@@ -7,9 +7,9 @@ public class OrderRequest
     public short PaymentMethod { get; set; }
     public DateTime DeliveryDate { get; set; }
     public string DeliveryAddress { get; set; }
-    public Product[] productRequest { get; set; }
+    public OrderProduct[] productRequest { get; set; }
 
-    public class Product
+    public class OrderProduct
     {
         public Guid Id { get; set; }
         public short Quantity { get; set; }
