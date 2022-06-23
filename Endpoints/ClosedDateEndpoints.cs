@@ -16,7 +16,7 @@ public static class ClosedDateEndpoints
 
     private static async Task<IResult> GetAllClosedDates([FromServices] ClosedDateRepository repository)
     {
-        var closedDates = await repository.GetAllClosedDates();
+        var closedDates = await repository.AllClosedDates();
 
         var result = closedDates.Select(closedDate => closedDate.ToShortDateString());
 

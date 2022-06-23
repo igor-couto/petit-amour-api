@@ -9,7 +9,7 @@ public static class PaymentEndpoints
 
     private static async Task<IResult> GetAllPayments([FromServices] PaymentRepository repository)
     {
-        var paymentTypes = await repository.GetAllPaymentMethods();
+        var paymentTypes = await repository.AllPaymentMethods();
 
         return Results.Ok(paymentTypes);
     }

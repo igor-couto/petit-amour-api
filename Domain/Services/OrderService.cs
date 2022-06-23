@@ -28,11 +28,11 @@ public class OrderService
     {
         var stringBuilder = new StringBuilder().AppendLine("*Pedido:*");
 
-        var paymentMethod = await _paymentRepository.GetPaymentMethod(orderRequest.PaymentMethod);
+        var paymentMethod = await _paymentRepository.PaymentMethod(orderRequest.PaymentMethod);
 
         var customer = await _customerRepository.Insert(orderRequest.CustomerName, orderRequest.CustomerPhoneNumber);
 
-        var closedDate = await _closedDateRepository.GetDate(orderRequest.DeliveryDate);
+        var closedDate = await _closedDateRepository.Date(orderRequest.DeliveryDate);
 
         if (closedDate) return "";
 
@@ -46,7 +46,7 @@ public class OrderService
             DeliveryAddress = orderRequest.DeliveryAddress
         };
 
-        var products = await _productRepository.GetProductsByIds(orderRequest.productRequest.Select(x => x.Id).ToList());
+        var products = await _productRepository.ProductsByIds(orderRequest.productRequest.Select(x => x.Id).ToList());
         var orderItems = new List<OrderItem>();
         var totalAmount = 0m;
 
@@ -77,9 +77,9 @@ public class OrderService
 
         order.Amount = totalAmount;
 
-        await _orderRepository.CreateOrder(order);
+        await _orderRepository.Insert(order);
 
-        await _orderRepository.CreateOrderItems(orderItems);
+        await _orderRepository.InsertOrderItems(orderItems);
 
         stringBuilder
             .AppendLine("\n--------------------------------------\n")
