@@ -19,7 +19,7 @@ public class ProductRepository : IDisposable
     {
         var connection = _databaseConnection.Get();
 
-        return await connection.QueryAsync<ProductCategory>("SELECT * FROM product_category;");
+        return await connection.QueryAsync<ProductCategory>("SELECT * FROM product_category ORDER BY position;");
     }
 
     public async Task<List<Product>> ProductsByIds(List<Guid> ids)
