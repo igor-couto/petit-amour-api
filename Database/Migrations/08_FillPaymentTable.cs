@@ -28,5 +28,6 @@ public class FillPaymentTable : Migration
             });
     }
 
-    public override void Down() { }
+    public override void Down()
+        => Delete.FromTable("payment_method").AllRows();
 }
