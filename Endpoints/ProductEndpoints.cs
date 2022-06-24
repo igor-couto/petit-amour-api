@@ -10,7 +10,10 @@ public static class ProductEndpoints
     private static async Task<IResult> GetAllProducts([FromServices] ProductRepository repository)
     {
         var products = await repository.AllProducts();
+        var categories = await repository.AllCategories();
 
-        return Results.Ok(products);
+        var productResponse = new ProductResponse(products, categories);
+
+        return Results.Ok(productResponse);
     }
 }
